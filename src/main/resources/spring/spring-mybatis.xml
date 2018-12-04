@@ -6,10 +6,7 @@
 
     
     <!-- 引入配置文件 -->  
-    <bean id="propertyConfigurer"  
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
-        <property name="location" value="classpath:config/jdbc.properties" />
-    </bean>
+
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="name" value="ssm"/>
         <property name="url" value="${url}" />
@@ -35,9 +32,11 @@
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->  
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
         <property name="dataSource" ref="dataSource" />  
-        <!-- 自动扫描mapping.xml文件 -->  
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
         <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
-    </bean>  
+        <property name="typeAliasesPackage" value="com.luying.model" />
+    </bean>
   
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->  
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  

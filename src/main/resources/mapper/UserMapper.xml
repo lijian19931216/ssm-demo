@@ -1,5 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.luying.dao.IUserDao" >
+<mapper namespace="com.luying.dao.IUserDao">
+    <!--<select id="getFamilies" resultMap="result">
+    select
+    p.id,
+    p.name,
+    p.order,
+    f.order fOrder,
+    f.id fId,
+    f.name fName
+    from person p
+    left join family f on f.id=p.family_id
+    order by f.order desc,p.order
+    </select>
+    <select id="getFamiliesMap" resultType="map">
+select
+    f.order ,
+    f.id ,
+    f.name
+    from person p
+    left join family f on f.id=p.family_id
+    order by f.order desc,p.order
+
+
+    </select>
+    <resultMap id="result" type="family">
+        <id property="id" column="Fid"></id>
+        <result column="fName" property="name"></result>
+        <result column="fOrder" property="order"></result>
+        <collection property="ps" ofType="person">
+            <id property="id" column="id"></id>
+            <result column="name" property="name"></result>
+            <result column="order" property="order"></result>
+        </collection>
+    </resultMap>-->
+     <select id="getFamilies" resultMap="result">
+        select id Fid,name fName from family
+     </select>
+     <resultMap id="result" type="java.util.Map">
+         <id property="id" column="Fid"></id>
+         <result column="fName" property="name"></result>
+         <result column="order" property="order"></result>
+         <collection property="ps" ofType="myMap" column="Fid" select="getPerson"/>
+     </resultMap>
+    <select id="getPerson" resultMap="myMap" parameterType="java.util.Map" >
+        select id,p.order,name from person p
+        where family_id = #{i2d}
+    </select>
+    <resultMap id="myMap" type="java.util.Map">
+        <id column="id" property="id"></id>
+        <result column="order" property="order"></result>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+   <!-- <select id="getFamilies" resultMap="result">
+        select id Fid,name fName from family
+     </select>
+    <resultMap id="result" type="java.util.Map">
+        <id property="id" column="Fid"></id>
+        <result column="fName" property="name"></result>
+        <result column="order" property="order"></result>
+        <collection property="ps" ofType="person" column="Fid" select="getPerson"/>
+    </resultMap>
+    <select id="getPerson" resultType="person" parameterType="java.util.Map" >
+        select id,p.order,name from person p
+        where family_id = #{i2d}
+    </select>-->
 
 </mapper>

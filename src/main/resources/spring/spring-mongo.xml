@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+<!-- 加载mongodb的配置属性文件 -->
+    <!--<context:component-scan base-package="com.luying"/>-->
+    <mongo:mongo-client host="${mongo.host}" port="${mongo.port}" id="mongoClient"
+                        credentials="${mongo.user}:${mongo.pwd}@${mongo.defaultDbName}">
+        <mongo:client-options
+                write-concern="${mongo.writeconcern}"
+                connect-timeout="${mongo.connectTimeout}"
+                socket-keep-alive="${mongo.socketKeepAlive}" />
+    </mongo:mongo-client>
+
+    <!-- mongo:db-factory dbname="database" mongo-ref="mongo" / -->
+    <!--这里的dbname就是自己的数据库/collection的名字-->
+    <mongo:db-factory id="mongoDbFactory" dbname="${mongo.defaultDbName}" mongo-ref="mongoClient" />
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+    </bean>
+
+</beans>
