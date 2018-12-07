@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @description:
  * @author: lijian
- * @create: 2018-12-04
+ * @create: 2018-12-04  22.16
  **/
 public class CommonsMultipartResolverUeditor extends CommonsMultipartResolver {
     @Override
